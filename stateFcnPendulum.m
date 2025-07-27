@@ -1,38 +1,40 @@
 function dxdt = stateFcnPendulum(x, u, params)
-% State function for pendulum dynamics model
+% stateFcnPendulum: Computes the time derivative of the pendulum state.
+% 
 % Inputs:
-%   x: State vector = [theta(rad); dtheta(rad/s)]
-%   u: Torque input command (Nm)
-%   params: k, l, d, r, rho
+%   x      - State vector [theta (rad); dtheta (rad/s)]
+%   u      - Input torque (Nm)
+%   params - Vector of physical parameters [k, l, d, r, rho]
+%
 % Output:
-%   dxdt: Derivative (respect to time) of the state vector
+%   dxdt   - Time derivative of the state vector [dtheta; ddtheta]
 
-theta = x(1);
-dtheta = x(2);
-tau = u;
+theta = x(1);      % Angular position (rad)
+dtheta = x(2);     % Angular velocity (rad/s)
+tau = u;           % Applied torque (Nm)
 
-k = params(1);
-l = params(2);
-d = params(3);
-r = params(4);
-rho = params(5);
-g = 9.81;
+k = params(1);     % Damping coefficient
+l = params(2);     % Length of the rod (m)
+d = params(3);     % Diameter of the rod (m)
+r = params(4);     % Radius of the sphere (m)
+rho = params(5);   % Density (kg/m^3)
+g = 9.81;          % Acceleration due to gravity (m/s^2)
 
-% Calculate mass of the rod
-V_rod = pi * (d/2)^2 * l;      % Volume of the rod (cylinder)
-m_rod = rho * V_rod;           % Mass of the rod
+% Compute volume and mass of the rod (modeled as a cylinder)
+V_rod = pi * (d/2)^2 * l;      % Rod volume (m^3)
+m_rod = rho * V_rod;           % Rod mass (kg)
 
-% Calculate mass of the sphere
-V_sphere = (4/3) * pi * r^3;   % Volume of the sphere
-m_sphere = rho * V_sphere;     % Mass of the sphere
+% Compute volume and mass of the sphere
+V_sphere = (4/3) * pi * r^3;   % Sphere volume (m^3)
+m_sphere = rho * V_sphere;     % Sphere mass (kg)
 
-% Total mass
+% Total mass of the pendulum
 m = m_rod + m_sphere;
 
-% Calculate the change in angular acceleration
-ddtheta = (tau - k * dtheta - m * g * l * sin(theta)) / (m * l * l);
+% Compute angular acceleration (ddtheta)
+ddtheta = (tau - k * dtheta - m * g * l * sin(theta)) / (m * l^2);
 
-% Update the state derivative
+% Assemble state derivative vector
 dxdt = [dtheta; ddtheta];
 
 end

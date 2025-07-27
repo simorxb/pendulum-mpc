@@ -1,56 +1,57 @@
-%% Init params
+%% Initialize physical parameters
 
-% Joint damping coefficient
+% Joint damping coefficient (N*m*s/rad)
 k = 0.8;
 
-% Rod length
+% Rod length (m)
 l = 1;
 
-% Rod diameter
+% Rod diameter (m)
 d = 0.01;
 
-% Ball radius
+% Ball radius (m)
 r = 0.06;
 
-% Rod and ball density (kg/m^3) - Steel
+% Rod and ball density (kg/m^3), assuming steel
 rho = 7750;
 
-%% Nonlinear Model Predictive Controller Configuration
+%% Nonlinear Model Predictive Controller (NMPC) Configuration
 
-% State dimension
+% Number of states (e.g., [theta; theta_dot])
 nx = 2;
-% Output dimension (theta)
+% Number of outputs (e.g., theta)
 ny = 1;
-% Input dimension (torque command)
+% Number of inputs (e.g., torque command)
 nu = 1;
 
 % Create nonlinear MPC controller object
-nlobj = nlmpc(nx,ny,nu);
+nlobj = nlmpc(nx, ny, nu);
 
+% Number of model parameters (for custom state function)
 nlobj.Model.NumberOfParameters = 1;
 params = [k, l, d, r, rho];
 
-% Controller sample time (seconds)
+% Controller sample time (s)
 nlobj.Ts = 0.1;
 
-% Controller horizons
-nlobj.PredictionHorizon = 15; % Look ahead 10 steps
-nlobj.ControlHorizon = 5;    % Optimize control for 2 steps
+% Prediction and control horizons
+nlobj.PredictionHorizon = 15; % Predict 15 steps ahead
+nlobj.ControlHorizon = 5;     % Optimize control moves over 5 steps
 
-% Set model
+% Assign state and output functions
 nlobj.Model.StateFcn = "stateFcnPendulum";
 nlobj.Model.OutputFcn = "outputFcnPendulum";
 
-% Input constraints based on physical limits
+% Input (torque) constraints
 nlobj.ManipulatedVariables.Max = 100;
 nlobj.ManipulatedVariables.Min = -100;
 
-% Cost function weights
+% Weights for cost function
 nlobj.Weights.OutputVariables = 1;
 nlobj.Weights.ManipulatedVariables = 0;
-nlobj.Weights.ManipulatedVariablesRate = 0.05;
+nlobj.Weights.ManipulatedVariablesRate = 0.03;
 
-% Initial conditions for model validation
-x0 = [0; 0];
-u0 = 3;   % Initial force (N)
+% Initial conditions for validation
+x0 = [0; 0];   % Initial state: [angle; angular velocity]
+u0 = 3;        % Initial input: torque (N*m)
 validateFcns(nlobj, x0, u0, [], {params});
