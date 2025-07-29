@@ -17,8 +17,8 @@ dtheta_log = out.logsout.get('dtheta').Values;
 figure('Color', 'k');
 ax1 = subplot(3,1,1);
 hold on;
-plot(theta_log.Time, theta_log.Data*180/pi, 'LineWidth', 2, 'DisplayName', "Measured", "Color", "m");
-stairs(ref_log.Time, ref_log.Data*180/pi, '--', 'LineWidth', 2, 'DisplayName', 'Reference', "Color", "g");
+plot(theta_log.Time, theta_log.Data*180/pi, 'LineWidth', 2, 'DisplayName', "Measured", "Color", "g");
+stairs(ref_log.Time, ref_log.Data*180/pi, '--', 'LineWidth', 2, 'DisplayName', 'Reference', "Color", "r");
 legend('TextColor', 'w', 'Color', 'k', 'EdgeColor', ...
     [0.5 0.5 0.5], 'LineWidth', 1, 'FontSize', 10);
 hold off;
@@ -34,7 +34,7 @@ ax1.YColor = 'w';
 
 ax2 = subplot(3,1,2);
 hold on;
-plot(dtheta_log.Time, dtheta_log.Data*180/pi, 'LineWidth', 2, 'DisplayName', "Angular Speed", "Color", "m");
+plot(dtheta_log.Time, dtheta_log.Data*180/pi, 'LineWidth', 2, 'DisplayName', "Angular Speed", "Color", "g");
 hold off;
 grid on;
 ylabel('Angular Speed (deg/s)');
@@ -47,7 +47,7 @@ ax2.YColor = 'w';
 
 ax3 = subplot(3,1,3);
 hold on;
-stairs(tau_log.Time, tau_log.Data, 'LineWidth', 2, 'DisplayName', "Torque", "Color", "m");
+stairs(tau_log.Time, tau_log.Data, 'LineWidth', 2, 'DisplayName', "Torque", "Color", "g");
 hold off;
 grid on;
 ylabel('Torque (N*m)');
