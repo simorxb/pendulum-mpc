@@ -15,9 +15,9 @@ m_sphere = rho * V_sphere;     % Sphere mass (kg)
 m = m_rod + m_sphere;
 
 % Input matrix B of the linearized system (for state-space model)
-BK = [0; 1/(m * l^2)];
+BK = [0; nlobj.Ts/(m * l^2)];
 
-tau_cov = 5;                   % Standard deviation of input torque noise
+tau_cov = 50;                   % Standard deviation of input torque noise
 theta_cov = 1*pi/180;          % Standard deviation of angle noise (radians)
 
 % Process noise covariance matrix QK (for Kalman filter)
