@@ -64,6 +64,32 @@ However:
 - Steady-state errors are observed at **90°** and **270°** due to model simplifications.  
 - All system states are assumed measurable; future work will address **state estimation** when full state feedback is unavailable.
 
+## Extended Kalman Filter
+Often, the state is not all measured, but it is all needed by the MPC algorithm.
+
+Let's assume we can only measure $\theta$ and not $\dot{\theta}$. To set up the Kalman Filter we need a discrete-time state space model.
+
+### Extended Kalman Filter Model
+
+Discrete-time form:
+$x_1(k+1) = x_1(k) + T_s x_2(k)$
+
+$x_2(k+1) = x_2(k) + T_s \frac{u(k) - k x_2(k) - m g l \sin(x_1(k))}{m l^2}$
+
+$y(k) = x_1(k)$
+
+### How to run the model with the EKF
+
+- `init.m`
+- `init_Kalman.m`
+- `run_model_kalman.m`
+
+### Simulation
+
+The controller successfully tracks target positions at **0°, 90°, 180°, and 270°** and the EKF estimates are accurate and allow a stable feedback loop.
+However:
+- Steady-state errors are observed at **90°** and **270°** due to model simplifications.
+
 ## Repository Structure
 - **Simscape Model**: Pendulum physical system.
 - **MATLAB Scripts**: State-space modeling, nonlinear MPC design, and execution.
