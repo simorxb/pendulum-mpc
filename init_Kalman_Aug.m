@@ -17,9 +17,9 @@ m = m_rod + m_sphere;
 % Input matrix B of the linearized system (for state-space model)
 BK = [0 0; nlobj.Ts/(m * l^2) 0; 0 1];
 
-tau_cov = 5;                   % Standard deviation of input torque noise
+tau_cov = 50;                   % Standard deviation of input torque noise
 theta_cov = 1*pi/180;          % Standard deviation of angle noise (radians)
-tau_dist_dot_cov = 2;          % Standard deviation of torque disturbance derivative (Nm/s)
+tau_dist_dot_cov = 5;          % Standard deviation of torque disturbance derivative (Nm/s)
 
 % Process noise covariance matrix QK (for Kalman filter)
 QK = BK * diag([tau_cov, tau_dist_dot_cov]) * diag([tau_cov, tau_dist_dot_cov])' * BK';
