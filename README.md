@@ -102,7 +102,7 @@ State equations:
 
 $\dot{x}_1 = x_2$
 
-$\dot{x}_2 = \frac{u_1 - k x_2 - m g l \sin(x_1)}{m l^2}$
+$\dot{x}_2 = \frac{u_1 + x_3 - k x_2 - m g l \sin(x_1)}{m l^2}$
 
 $\dot{x}_3 = u_2$
 
@@ -118,7 +118,7 @@ Discrete-time form:
 
 $x_1(k+1) = x_1(k) + T_s x_2(k)$
 
-$x_2(k+1) = x_2(k) + T_s \frac{u_1(k) - k x_2(k) - m g l \sin(x_1(k))}{m l^2}$
+$x_2(k+1) = x_2(k) + T_s \frac{u_1(k) + x_3(k) - k x_2(k) - m g l \sin(x_1(k))}{m l^2}$
 
 $x_3(k+1) = x_3(k) + T_s u_2(k)$
 
