@@ -30,6 +30,7 @@ nlobj = nlmpc(nx, ny, nu);
 % Number of model parameters (for custom state function)
 nlobj.Model.NumberOfParameters = 1;
 params = [k, l, d, r, rho];
+open('Model.slx');
 createParameterBus(nlobj,'Model/Nonlinear MPC Controller','paramsBusObject',{params});
 
 % Controller sample time (s)

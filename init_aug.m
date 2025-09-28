@@ -28,7 +28,8 @@ nlobj = nlmpc(nx, ny, 'MV', 1, 'UD', 2);
 % Number of model parameters (for custom state function)
 nlobj.Model.NumberOfParameters = 1;
 params = [k, l, d, r, rho];
-createParameterBus(nlobj,'Model_Kalman/Nonlinear MPC Controller','paramsBusObject',{params});
+open('Model_Kalman_Augmented.slx');
+createParameterBus(nlobj,'Model_Kalman_Augmented/Nonlinear MPC Controller','paramsBusObject',{params});
 
 % Controller sample time (s)
 nlobj.Ts = 0.1;
