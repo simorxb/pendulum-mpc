@@ -72,6 +72,7 @@ Let's assume we can only measure $\theta$ and not $\dot{\theta}$. To set up the 
 ### Extended Kalman Filter Model
 
 Discrete-time form:
+
 $x_1(k+1) = x_1(k) + T_s x_2(k)$
 
 $x_2(k+1) = x_2(k) + T_s \frac{u(k) - k x_2(k) - m g l \sin(x_1(k))}{m l^2}$
@@ -89,6 +90,49 @@ $y(k) = x_1(k)$
 The controller successfully tracks target positions at **0°, 90°, 180°, and 270°** and the EKF estimates are accurate and allow a stable feedback loop.
 However:
 - Steady-state errors are observed at **90°** and **270°** due to model simplifications.
+
+## Extended Kalman Filter and Input Disturbance Estimation
+
+### State-Space Representation including Disturbance Model
+For MPC design:
+- **States**: $x = [\theta \ \ \dot{\theta} \ \ \tau_d]^T$  
+- **Input**: $u = [\tau \ \ \dot{\tau}_d]^T$  
+
+State equations:
+
+$\dot{x}_1 = x_2$
+
+$\dot{x}_2 = \frac{u_1 + x_3 - k x_2 - m g l \sin(x_1)}{m l^2}$
+
+$\dot{x}_3 = u_2$
+
+Output:
+
+$y = x_1$
+
+### Extended Kalman Filter Model
+
+We still assume that we can only measure $\theta$ and not $\dot{\theta}$. To set up the Kalman Filter we need a discrete-time state space model.
+
+Discrete-time form:
+
+$x_1(k+1) = x_1(k) + T_s x_2(k)$
+
+$x_2(k+1) = x_2(k) + T_s \frac{u_1(k) + x_3(k) - k x_2(k) - m g l \sin(x_1(k))}{m l^2}$
+
+$x_3(k+1) = x_3(k) + T_s u_2(k)$
+
+$y(k) = x_1(k)$
+
+### How to run the model with the EKF and the disturbance estimation
+
+- `init_aug.m`
+- `init_Kalman_Aug.m`
+- `run_model_kalman_augmented.m`
+
+### Simulation
+
+The controller successfully tracks target positions at **0°, 90°, 180°, and 270°** and the EKF estimates are accurate and allow a stable feedback loop. The disturbance model has eliminated the control offset previously observed.
 
 ## Repository Structure
 - **Simscape Model**: Pendulum physical system.
