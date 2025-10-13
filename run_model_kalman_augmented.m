@@ -6,6 +6,7 @@ simIn = Simulink.SimulationInput(model);
 % Run the simulation
 simIn = simIn.setVariable('tau_dist', 0);
 simIn = simIn.setVariable('ref_mode', 0);
+simIn = simIn.setVariable('noise', 0);
 simIn = simIn.setModelParameter('StopTime', '40');
 out = sim(simIn);
 
